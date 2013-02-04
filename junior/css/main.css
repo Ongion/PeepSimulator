@@ -1,0 +1,51 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300);
+
+/* Include border when calculating content width */
+div {box-sizing:border-box;}
+/* Sets page width */
+body {
+	width:950px;
+	margin:auto;
+}
+/* Sets page font */
+body, input, select, body .google-visualization-table-tr-head, body .google-visualization-table-tr-head td {
+	font-family:'Lato';
+	font-weight:normal;
+}
+/* Sets page columns */
+#leftCol, #rightCol {width:50%}
+#leftCol {float:left;}
+#rightCol {float:right;}
+/* Sets section padding */
+.wrapper, .wrapperLabel, input[type=button], #settings, .google-visualization-table-table, body .google-visualization-table-div-page, body .google-visualization-table-tr-head, body .google-visualization-table-tr-head td {padding:8px;}
+/* Sets section border */
+.wrapper div {border:1px solid #ff4444;}
+.wrapper div div {border:none;}
+/* Sets section label sizes */
+.wrapperLabel {
+	width:100%;
+	padding-left:12px;
+}
+/* Sets section label, button, and spreadsheet header colors */
+.wrapperLabel, input[type=button] {
+	background:#ff4444;
+	color:white;
+}
+body .google-visualization-table-tr-head, body .google-visualization-table-tr-head td {
+	background:white none;
+	color:#ff4444;
+}
+/* Sets button margins and highlight colors */
+input[type=button] {
+	border:none;
+	margin:0px 2px;
+}
+input[type=button]:first-child {margin-left:0px;}
+input[type=button]:last-child {margin-right:0px;}
+input[type=button]:hover {background-color:gray;}
+input[type=button]:active {background-color:dimgray;}
+/* Removes spacing between spreadsheet and page buttons */
+.google-visualization-table-table {padding-bottom:0px;}
+body .google-visualization-table-div-page {padding-top:0px;}
+/* Our images are slightly too big, so this cuts them down */
+#machines {overflow:hidden;}
