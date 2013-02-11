@@ -10,8 +10,10 @@ var cPath = function(frame, stage, image) {
 }
 var isClickable = {};
 var currentPlan;
+var currentPath;
 function planA() {
 	currentPlan = 'planA';
+	currentPath = abPath;
 	isClickable.machineA = true;
 	isClickable.machineB = false;
 	isClickable.machineC = false;
@@ -19,10 +21,12 @@ function planA() {
 }
 function planB() {
 	planA();
+	currentPath = abPath;
 	currentPlan = 'planB';
 }
 function planC() {
 	currentPlan = 'planC';
+	currentPath = cPath;
 	isClickable.machineA = true;
 	isClickable.machineB = true;
 	isClickable.machineC = true;
@@ -64,7 +68,8 @@ function Peep(machine, path) {
 			x: (2 * machine + 1) * stageHeight / 8 - scale * peepWidth / 2,
 			y: - peepHeight * scale,
 			scale: {x: scale, y: scale},
-			image: imageObj
+			image: imageObj,
+			name: 'peep'
 		});
 		
 		image.on('click', function() {
@@ -79,15 +84,34 @@ function Peep(machine, path) {
 		image.createImageHitRegion(function() {layer.drawHit();});
 		layer.add(image);
 
-		new Kinetic.Animation(function(frame){
-			path(frame, stage, image);
+		var removeIfNecessary = function() {
 			if (image.getY() > stage.getHeight() || image.getX() > stage.getWidth()) {
-				image.clearImageHitRegion();
-				image.remove();
-				imageObj.remove();
-				delete this;
+				layer.remove(this);
 			}
-		}, layer).start();
+		}
+		
+		// new Kinetic.Animation(function(frame){
+			// path(frame, stage, image);
+			// if (image.getY() > stage.getHeight() || image.getX() > stage.getWidth()) {
+				// image.clearImageHitRegion();
+				// image.remove();
+				// imageObj.remove();
+				// delete this;
+			// }
+		// }, layer).start();
 	}
 	imageObj.src = "../images/peep" + machine + ".png";
 }
+
+var anim = new Kinetic.Animation(function(frame){
+	var peeps = layer.get('.peep');
+	for (var i = 0; i < peeps.length; i++) {
+		var thePeep = peeps[i];
+		currentPath(frame, stage, thePeep);
+		if (thePeep.getY() > stage.getHeight() || thePeep.getX() > stage.getWidth()) {
+				thePeep.remove();
+		}
+	}
+}, layer);
+
+anim.start();

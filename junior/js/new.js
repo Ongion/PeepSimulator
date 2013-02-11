@@ -13,7 +13,8 @@ function exponentialDistribution(params) {
 function machine(distribution) {
 	this.params = {};
 	this.distribution = distribution;
-	var params = window[distribution.name + 'Default'];
+	// function.name is not a standard property
+	var params = window[distribution.toString().match(/^function ([^(]+)/)[1] + 'Default'];
 	for (param in params) this.params[param] = params[param];
 	this.getRand = function() {return distribution(this.params);};
 }
