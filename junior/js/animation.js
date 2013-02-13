@@ -88,7 +88,6 @@ var stage = new Kinetic.Stage({
 });
 var layer = new Kinetic.Layer();
 stage.add(layer);
-window.setInterval(function() {for (var i = 0; i < machines.length; i++) {Peep(i, path);}}, 1500);
 
 var backgroundObj = new Image();
 var backgroundImage;
@@ -146,15 +145,24 @@ function Peep(machine, path) {
 	if (currentPlan == 'planC') imageObj.src = "../images/peep4.png";
 	else imageObj.src = "../images/peep" + machine + ".png";
 }
-
+var timeCount = 0;
 var anim = new Kinetic.Animation(function(frame){
 	var peeps = layer.get('.peep');
+	timeCount += 1;
 	for (var i = 0; i < peeps.length; i++) {
 		var thePeep = peeps[i];
 		path(frame, stage, thePeep);
 		if (thePeep.getY() > 2 * stage.getHeight() || thePeep.getX() > stage.getWidth()) {
 				thePeep.remove();
 		}
+	}
+	if (timeCount >= 90) {
+		for (var i = 0; i < machines.length; i++) {
+			var j = i;
+			if (currentPlan == 'Plan C') j = Math.floor(4 * Math.random());
+			Peep(j, path);
+		}
+		timeCount = 0;
 	}
 }, layer);
 
