@@ -65,9 +65,7 @@ var sqtotal = sqtotals['A'];
 var chart;
 var spreadsheet;
 var currentData;
-var dataA;
-var dataB;
-var dataC;
+var datasets;
 var emptyData;
 var chartDataAdapter;
 var spreadsheetDataAdapter;
@@ -89,18 +87,15 @@ var chartOptions = {
 // Start Everything
 function initializeData() {
 	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL');
-	dataA = new google.visualization.DataTable();
-	dataB = new google.visualization.DataTable();
-	dataC = new google.visualization.DataTable();
+	datasets = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	emptyData = new google.visualization.DataTable()
 	for (var i = 0; i < cols.length; i++) {
-		dataA.addColumn('number', cols[i]);
-		dataB.addColumn('number', cols[i]);
-		dataC.addColumn('number', cols[i]);
+		datasets['A'].addColumn('number', cols[i]);
+		datasets['B'].addColumn('number', cols[i]);
+		datasets['C'].addColumn('number', cols[i]);
 		emptyData.addColumn('number', cols[i]);
 	}
-	
-	currentData = dataA;
+	changePlan('A');
 	chart = new google.visualization.LineChart(document.getElementById('chart'));
 	spreadsheet = new google.visualization.Table(document.getElementById('spreadsheet'));
 	updateCharts();
@@ -108,7 +103,6 @@ function initializeData() {
 	google.visualization.events.addListener(chart, 'select', function() {spreadsheet.setSelection([{row: chart.getSelection()[0].row}]);});
 	google.visualization.events.addListener(spreadsheet, 'select', function() {chart.setSelection(spreadsheet.getSelection());});
 	selectMachine();
-	planA();
 }
 function updateCharts() {
 	chartData = new google.visualization.DataView(currentData);
@@ -120,10 +114,10 @@ function updateCharts() {
 }
 // Shortcuts
 function drawChart() {
-	if (currentData.getNumberOfRows() >= 25) chart.draw(chartData, chartOptions);
-	else chart.draw(emptyData, chartOptions);
+	if (currentData.getNumberOfRows() >= 25 && chart) chart.draw(chartData, chartOptions);
+	else if (chart) chart.draw(emptyData, chartOptions);
 }
-function drawSpreadsheet() {spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
+function drawSpreadsheet() {if (spreadsheet) spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
 // Data Manipulators
 function addRow(num, machine) {
 	total += num;
@@ -169,10 +163,14 @@ function clearData() {
 	drawSpreadsheet();
 }
 function changePlan(plan) {
-	currentData = window['data' + plan];
+	currentData = datasets[plan];
 	total = totals[plan];
 	sqtotal = sqtotals[plan];
+	currentPlan = 'plan' + plan;
+	var peeps = layer.get('.peep');
+	for (var i = 0; i < peeps.length; i++) peeps[i].remove();
 	window['plan' + plan]();
+	updateCharts();
 }
 function planA() {
 	var stageShift = new Kinetic.Animation(function(frame){
@@ -182,20 +180,12 @@ function planA() {
 		} else stage.setY(stage.getY() + stageHeight / 50);
 	}, layer);
 	stageShift.start();
-	
 	stage.draw();
-	var peeps = layer.get('.peep');
-	for (var i = 0; i < peeps.length; i++) {
-		peeps[i].remove();
-	}
-	currentPlan = 'planA';
+	
 	isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
-	updateCharts();
 }
 function planB() {
 	planA();
-	currentPlan = 'planB';
-	updateCharts();
 }
 function planC() {
 	var stageShift = new Kinetic.Animation(function(frame){
@@ -205,15 +195,9 @@ function planC() {
 		} else stage.setY(stage.getY() - stageHeight / 50);
 	}, layer);
 	stageShift.start();
-	
 	stage.draw();
-	var peeps = layer.get('.peep');
-	for (var i = 0; i < peeps.length; i++) {
-		peeps[i].remove();
-	}
-	currentPlan = 'planC';
+	
 	isClickable = {machineA : true, machineB : true, machineC : true, machineD : true};
-	updateCharts();
 }
 // Math Helpers
 function uniformRandom(min, max) {return min + Math.random() * (max - min);}
