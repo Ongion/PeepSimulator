@@ -144,7 +144,7 @@ function drawChart() {
 function drawSpreadsheet() {if (spreadsheet) spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
 // Data Manipulators
 function addRow(num, machine) {
-	total += num;
+	total += num
 	sqtotal += Math.pow(num, 2);
 	var count = currentData.getNumberOfRows() + 1;
 	if (count <= 25) {
@@ -152,7 +152,7 @@ function addRow(num, machine) {
 		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
 	}
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
-	currentRData.addRow([count, num, currentRData.
+	currentRData.addRow([count, num, currentRData.range, currentRData.
 	setMean(count, currentData.mean, currentData.controlLimit);
 	buffer.length = 0;
 	drawSpreadsheet();
