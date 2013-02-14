@@ -57,8 +57,14 @@ function saveMachine() {
 }
 // Miscellaneous Data Vars
 var buffer = new Array();
-var total = 0;
-var sqtotal = 0;
+var totalA = 0;
+var totalB = 0;
+var totalC = 0;
+var total = totalA;
+var sqtotalA = 0;
+var sqtotalB = 0;
+var sqtotalC = 0;
+var sqtotal = totalA;
 // Google Charts Vars
 var chart;
 var spreadsheet;
@@ -66,6 +72,7 @@ var currentData;
 var dataA;
 var dataB;
 var dataC;
+var emptyData;
 var chartDataAdapter;
 var spreadsheetDataAdapter;
 var spreadsheetOptions = {
@@ -89,10 +96,12 @@ function initializeData() {
 	dataA = new google.visualization.DataTable();
 	dataB = new google.visualization.DataTable();
 	dataC = new google.visualization.DataTable();
+	emptyData = new google.visualization.DataTable()
 	for (var i = 0; i < cols.length; i++) {
 		dataA.addColumn('number', cols[i]);
 		dataB.addColumn('number', cols[i]);
 		dataC.addColumn('number', cols[i]);
+		emptyData.addColumn('number', cols[i]);
 	}
 	
 	currentData = dataA;
@@ -114,7 +123,10 @@ function updateCharts() {
 	drawSpreadsheet();
 }
 // Shortcuts
-function drawChart() {chart.draw(chartData, chartOptions);}
+function drawChart() {
+	if (currentData.getNumberOfRows() >= 25) chart.draw(chartData, chartOptions);
+	else chart.draw(emptyData, chartOptions);
+}
 function drawSpreadsheet() {spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
 // Data Manipulators
 function addRow(num, machine) {
