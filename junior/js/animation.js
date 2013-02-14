@@ -16,63 +16,7 @@ var path = function(frame, stage, image) {
 	}
 	return false;
 }
-var isClickable = {};
-function planA() {
-	currentData = dataA;
-	var stageShift = new Kinetic.Animation(function(frame){
-		if (stage.getY() + stageHeight / 50 > 0) {
-			stage.setY(0);
-			stageShift.stop();
-		} else stage.setY(stage.getY() + stageHeight / 50);
-	}, layer);
-	stageShift.start();
-	
-	stage.draw();
-	var peeps = layer.get('.peep');
-	for (var i = 0; i < peeps.length; i++) {
-		peeps[i].remove();
-	}
-	currentPlan = 'planA';
-	isClickable.machineA = true;
-	isClickable.machineB = false;
-	isClickable.machineC = false;
-	isClickable.machineD = false;
-	total = totals['A'];
-	sqtotal = sqtotals['A'];
-	updateCharts();
-}
-function planB() {
-	planA();
-	currentData = dataB;
-	currentPlan = 'planB';
-	total = totals['B'];
-	sqtotal = sqtotals['B'];
-	updateCharts();
-}
-function planC() {
-	currentData = dataC;
-	var stageShift = new Kinetic.Animation(function(frame){
-		if (stage.getY() - stageHeight / 50 < - stageHeight) {
-			stage.setY(- stageHeight);
-			stageShift.stop();
-		} else stage.setY(stage.getY() - stageHeight / 50);
-	}, layer);
-	stageShift.start();
-	
-	stage.draw();
-	var peeps = layer.get('.peep');
-	for (var i = 0; i < peeps.length; i++) {
-		peeps[i].remove();
-	}
-	currentPlan = 'planC';
-	isClickable.machineA = true;
-	isClickable.machineB = true;
-	isClickable.machineC = true;
-	isClickable.machineD = true;
-	total = totals['C'];
-	sqtotal = sqtotals['C'];
-	updateCharts();
-}
+isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
 function updatePlan() {
 	if (currentPlan == 'planA' && buffer.length == 0) shiftMachinesRight(); 
 	else if (currentPlan == 'planB') shiftMachinesRight();

@@ -169,8 +169,51 @@ function clearData() {
 	drawSpreadsheet();
 }
 function changePlan(plan) {
-	window[plan]();
-	// clearData();
+	currentData = window['data' + plan];
+	total = totals[plan];
+	sqtotal = sqtotals[plan];
+	window['plan' + plan]();
+}
+function planA() {
+	var stageShift = new Kinetic.Animation(function(frame){
+		if (stage.getY() + stageHeight / 50 > 0) {
+			stage.setY(0);
+			stageShift.stop();
+		} else stage.setY(stage.getY() + stageHeight / 50);
+	}, layer);
+	stageShift.start();
+	
+	stage.draw();
+	var peeps = layer.get('.peep');
+	for (var i = 0; i < peeps.length; i++) {
+		peeps[i].remove();
+	}
+	currentPlan = 'planA';
+	isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
+	updateCharts();
+}
+function planB() {
+	planA();
+	currentPlan = 'planB';
+	updateCharts();
+}
+function planC() {
+	var stageShift = new Kinetic.Animation(function(frame){
+		if (stage.getY() - stageHeight / 50 < - stageHeight) {
+			stage.setY(- stageHeight);
+			stageShift.stop();
+		} else stage.setY(stage.getY() - stageHeight / 50);
+	}, layer);
+	stageShift.start();
+	
+	stage.draw();
+	var peeps = layer.get('.peep');
+	for (var i = 0; i < peeps.length; i++) {
+		peeps[i].remove();
+	}
+	currentPlan = 'planC';
+	isClickable = {machineA : true, machineB : true, machineC : true, machineD : true};
+	updateCharts();
 }
 // Math Helpers
 function uniformRandom(min, max) {return min + Math.random() * (max - min);}
