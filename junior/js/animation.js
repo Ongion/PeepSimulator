@@ -5,10 +5,10 @@ var peepWidth = 202;
 var peepHeight = 304;
 var path = function(frame, stage, image) {
 	if (image.getX() < 397.5 - scale * image.getWidth() / 2 && image.getY() < 362.5 - scale * image.getHeight() / 2) {
-		if (currentPlan == 'planC') image.move(0, stage.getHeight() / 150);
+		if (currentPlan == 'C') image.move(0, stage.getHeight() / 150);
 		else image.move(0, stage.getHeight() / 450);
 	} else if (image.getX() < 397.5 - scale * image.getWidth() / 2) {
-		if (currentPlan == 'planC') image.move(stage.getHeight() / 150, 0);
+		if (currentPlan == 'C') image.move(stage.getHeight() / 150, 0);
 		else image.move(stage.getHeight() / 450, 0);
 	} else {
 		image.move(0, stage.getHeight() / 450);
@@ -18,8 +18,8 @@ var path = function(frame, stage, image) {
 }
 isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
 function updatePlan() {
-	if (currentPlan == 'planA' && buffer.length == 0) shiftMachinesRight(); 
-	else if (currentPlan == 'planB') shiftMachinesRight();
+	if (currentPlan == 'A' && buffer.length == 0) shiftMachinesRight(); 
+	else if (currentPlan == 'B') shiftMachinesRight();
 }
 function shiftMachinesRight() {
 	if (isClickable.A) {
@@ -86,7 +86,7 @@ function Peep(machine) {
 			if (image.getY() > stage.getHeight() || image.getX() > stage.getWidth()) layer.remove(this);
 		}
 	}
-	if (currentPlan == 'planC') imageObj.src = "../images/peepE.png";
+	if (currentPlan == 'C') imageObj.src = "../images/peepE.png";
 	else imageObj.src = "../images/peep" + machineList[machine] + ".png";
 }
 var timeCount = 0;
@@ -103,7 +103,7 @@ var anim = new Kinetic.Animation(function(frame){
 	if (timeCount >= 90) {
 		for (var i = 0; i < 4; i++) {
 			var j = i;
-			if (currentPlan == 'planC') j = Math.floor(4 * Math.random());
+			if (currentPlan == 'C') j = Math.floor(4 * Math.random());
 			Peep(j);
 		}
 		timeCount = 0;

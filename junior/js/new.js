@@ -9,11 +9,12 @@ var uniformDistributionDefault = {Minimum: 900, Maximum:1100};
 // Default Machines
 var machines = {A : new machine(normalDistribution), B : new machine(normalDistribution), C : new machine(exponentialDistribution), D : new machine(exponentialDistribution)};
 // Miscellaneous Data Vars
+var DEFAULT_MACHINE = 'A';
 var buffer = new Array();
 var totals = {A : 0, B : 0, C : 0};
 var sqtotals = {A : 0, B : 0, C : 0};
-var total = totals['A'];
-var sqtotal = sqtotals['A'];
+var total = totals[DEFAULT_MACHINE];
+var sqtotal = sqtotals[DEFAULT_MACHINE];
 var machineList = ['A', 'B', 'C', 'D'];
 // Google Charts Vars
 var chart;
@@ -45,7 +46,7 @@ function initializeData() {
 		datasets['C'].addColumn('number', cols[i]);
 		emptyData.addColumn('number', cols[i]);
 	}
-	changePlan('A');
+	changePlan(DEFAULT_MACHINE);
 	chart = new google.visualization.LineChart(document.getElementById('chart'));
 	spreadsheet = new google.visualization.Table(document.getElementById('spreadsheet'));
 	updateCharts();
@@ -159,7 +160,7 @@ function changePlan(plan) {
 	currentData = datasets[plan];
 	total = totals[plan];
 	sqtotal = sqtotals[plan];
-	currentPlan = 'plan' + plan;
+	currentPlan = plan;
 	var peeps = layer.get('.peep');
 	for (var i = 0; i < peeps.length; i++) peeps[i].remove();
 	window['plan' + plan]();
