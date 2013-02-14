@@ -42,7 +42,7 @@ var chartOptions = {
 	animation: {duration: 250, easing: 'linear'},
 	interpolateNulls: true
 };
-// Start Everything
+// Called when we start the application
 function initializeData() {
 	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL');
 	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL', 'LCL');
@@ -74,6 +74,7 @@ function initializeData() {
 	google.visualization.events.addListener(spreadsheet, 'select', function() {chart.setSelection(spreadsheet.getSelection());});
 	selectMachine();
 }
+// Called when we need to load a different set of data into our charts
 function updateCharts() {
 	var chartData = new google.visualization.DataView(currentData);
 	chartData.setColumns([0, 1, 2, 3, 4]);
@@ -86,7 +87,7 @@ function updateCharts() {
 	spreadsheetData.setColumns([0, 1]);
 	drawSpreadsheet();
 }
-// Distributions
+// Distribution definitions
 function normalDistribution(params) {return params.Mu + Math.sqrt(-2 * Math.log(uniformRandom(0, 1))) * Math.cos(2 * Math.PI * uniformRandom(0, 1)) * params.Sigma;}
 function uniformDistribution(params) {return uniformRandom(params.Minimum, params.Maximum)}
 function exponentialDistribution(params) {
@@ -94,6 +95,7 @@ function exponentialDistribution(params) {
 	var u = uniformRandom(0, 1);
 	return -Math.log(1 - u) / lambda;
 }
+// Machines store the getRand for its particular distribution along with a set of parameters that feed into the given distribution
 function machine(distribution) {
 	this.params = {};
 	this.distribution = distribution;
@@ -204,10 +206,10 @@ function changePlan(plan) {
 }
 function planA() {
 	var stageShift = new Kinetic.Animation(function(frame){
-		if (stage.getY() + stageHeight / 20 > 0) {
+		if (stage.getY() + stageHeight / 10 > 0) {
 			stage.setY(0);
 			stageShift.stop();
-		} else stage.setY(stage.getY() + stageHeight / 20);
+		} else stage.setY(stage.getY() + stageHeight / 10);
 	}, layer);
 	stageShift.start();
 	stage.draw();
@@ -217,10 +219,10 @@ function planA() {
 var planB = planA;
 function planC() {
 	var stageShift = new Kinetic.Animation(function(frame){
-		if (stage.getY() - stageHeight / 20 < - stageHeight) {
+		if (stage.getY() - stageHeight / 10 < - stageHeight) {
 			stage.setY(- stageHeight);
 			stageShift.stop();
-		} else stage.setY(stage.getY() - stageHeight / 20);
+		} else stage.setY(stage.getY() - stageHeight / 10);
 	}, layer);
 	stageShift.start();
 	stage.draw();

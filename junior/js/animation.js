@@ -5,10 +5,10 @@ var peepWidth = 202;
 var peepHeight = 304;
 var path = function(frame, stage, image) {
 	if (image.getX() < 397.5 - scale * image.getWidth() / 2 && image.getY() < 362.5 - scale * image.getHeight() / 2) {
-		if (currentPlan == 'C') image.move(0, stage.getHeight() / 150);
+		if (currentPlan == 'C') image.move(0, stage.getHeight() / 100);
 		else image.move(0, stage.getHeight() / 450);
 	} else if (image.getX() < 397.5 - scale * image.getWidth() / 2) {
-		if (currentPlan == 'C') image.move(stage.getHeight() / 150, 0);
+		if (currentPlan == 'C') image.move(stage.getHeight() / 100, 0);
 		else image.move(stage.getHeight() / 450, 0);
 	} else {
 		image.move(0, stage.getHeight() / 450);
