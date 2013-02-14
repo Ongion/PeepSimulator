@@ -25,10 +25,10 @@
 					<input type="radio" name="plan" value="planB" onchange="changePlan('B')">Plan B
 					<input type="radio" name="plan" value="planC" onchange="changePlan('C')">Plan C<br>
 					<select id="selectedMachine" onchange="selectMachine()">
-						<option value="machineA">Machine A</option>
-						<option value="machineB">Machine B</option>
-						<option value="machineC">Machine C</option>
-						<option value="machineD">Machine D</option>
+						<option value="A">Machine A</option>
+						<option value="B">Machine B</option>
+						<option value="C">Machine C</option>
+						<option value="D">Machine D</option>
 					</select><br>
 					<select id="selectedDistribution" onchange="selectDistribution()">
 						<option value="uniformDistribution">Uniform Distribution</option>
@@ -73,6 +73,7 @@
 			<div class="wrapper">
 				<input type="button" value="Export Data" onclick="exportData()"/>
 				<input type="button" value="Clear Data" onclick="clearData()"/>
+				<input type="button" value="Add Lots of Data" onclick="addPeeps(8)"/>
 			</div>
 		</div>
 	</body>

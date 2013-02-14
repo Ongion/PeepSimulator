@@ -22,18 +22,18 @@ function updatePlan() {
 	else if (currentPlan == 'planB') shiftMachinesRight();
 }
 function shiftMachinesRight() {
-	if (isClickable.machineA) {
-		isClickable.machineA = false;
-		isClickable.machineB = true;
-	} else if (isClickable.machineB) {
-		isClickable.machineB = false;
-		isClickable.machineC = true;
-	} else if (isClickable.machineC) {
-		isClickable.machineC = false;
-		isClickable.machineD = true;
-	} else if (isClickable.machineD) {
-		isClickable.machineD = false;
-		isClickable.machineA = true;
+	if (isClickable.A) {
+		isClickable.A = false;
+		isClickable.B = true;
+	} else if (isClickable.B) {
+		isClickable.B = false;
+		isClickable.C = true;
+	} else if (isClickable.C) {
+		isClickable.C = false;
+		isClickable.D = true;
+	} else if (isClickable.D) {
+		isClickable.D = false;
+		isClickable.A = true;
 	}
 }
 
@@ -58,7 +58,7 @@ backgroundObj.onload = function() {
 }
 backgroundObj.src = "../images/background.png";
 
-function Peep(machine, path) {
+function Peep(machine) {
 	var imageObj = new Image();
 	imageObj.onload = function() {
 		var image = new Kinetic.Image({
@@ -70,8 +70,8 @@ function Peep(machine, path) {
 		});
 		
 		image.on('click', function() {
-			if (isClickable[machines[machine]]) {
-				addPeep(machines[machine]);
+			if (isClickable[machineList[machine]]) {
+				addPeep(machineList[machine]);
 				updatePlan();
 				image.clearImageHitRegion();
 				image.remove();
@@ -83,23 +83,11 @@ function Peep(machine, path) {
 		backgroundImage.moveToTop();
 
 		var removeIfNecessary = function() {
-			if (image.getY() > stage.getHeight() || image.getX() > stage.getWidth()) {
-				layer.remove(this);
-			}
+			if (image.getY() > stage.getHeight() || image.getX() > stage.getWidth()) layer.remove(this);
 		}
-		
-		// new Kinetic.Animation(function(frame){
-			// path(frame, stage, image);
-			// if (image.getY() > stage.getHeight() || image.getX() > stage.getWidth()) {
-				// image.clearImageHitRegion();
-				// image.remove();
-				// imageObj.remove();
-				// delete this;
-			// }
-		// }, layer).start();
 	}
-	if (currentPlan == 'planC') imageObj.src = "../images/peep4.png";
-	else imageObj.src = "../images/peep" + machine + ".png";
+	if (currentPlan == 'planC') imageObj.src = "../images/peepE.png";
+	else imageObj.src = "../images/peep" + machineList[machine] + ".png";
 }
 var timeCount = 0;
 var anim = new Kinetic.Animation(function(frame){
@@ -113,10 +101,10 @@ var anim = new Kinetic.Animation(function(frame){
 		}
 	}
 	if (timeCount >= 90) {
-		for (var i = 0; i < machines.length; i++) {
+		for (var i = 0; i < 4; i++) {
 			var j = i;
-			if (currentPlan == 'Plan C') j = Math.floor(4 * Math.random());
-			Peep(j, path);
+			if (currentPlan == 'planC') j = Math.floor(4 * Math.random());
+			Peep(j);
 		}
 		timeCount = 0;
 	}

@@ -23,15 +23,11 @@ var normalDistributionDefault = {Mu: 1000, Sigma: 100};
 var exponentialDistributionDefault = {Mean: 1000};
 var uniformDistributionDefault = {Minimum: 900, Maximum:1100};
 // Default Machines
-var machines = new Array('machineA', 'machineB', 'machineC', 'machineD');
-var machineA = new machine(normalDistribution);
-var machineB = new machine(normalDistribution);
-var machineC = new machine(exponentialDistribution);
-var machineD = new machine(uniformDistribution);
+var machines = {A : new machine(normalDistribution), B : new machine(normalDistribution), C : new machine(exponentialDistribution), D : new machine(exponentialDistribution)};
 // Called when we change which machine is selected in Machine Settings
 function selectMachine() {
 	$('#parameters tr').hide();
-	var selectedMachine = window[$('#selectedMachine').val()];
+	var selectedMachine = machines[$('#selectedMachine').val()];
 	for (param in selectedMachine.params) {
 		$('#'+param).show();
 		$('#'+param+'Val').val(selectedMachine.params[param]);
@@ -146,12 +142,13 @@ function setMean(count, mean, controlLimit) {
 }
 // Some testing helpers
 function addPeep(machine) {
-	var rand = Math.round(window[machine].getRand());
+	var rand = Math.round(machines[machine].getRand());
 	buffer[buffer.length] = rand;
 	if (buffer.length >= 4) addRow(mean(buffer), machine);
 	return rand;
 }
-function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < 4; j++) addPeep(machines[i % 4]);}
+var machineList = ['A', 'B', 'C', 'D'];
+function addPeeps(count) {for (var i = 0; i < count; i++) for (var i = 0; i < machineList.length; i++) addPeep(machineList[i]);}
 // Button Clicks
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());
@@ -182,7 +179,7 @@ function planA() {
 	stageShift.start();
 	stage.draw();
 	
-	isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
+	isClickable = {A : true, B : false, C : false, D : false};
 }
 var planB = planA;
 function planC() {
@@ -195,7 +192,7 @@ function planC() {
 	stageShift.start();
 	stage.draw();
 	
-	isClickable = {machineA : true, machineB : true, machineC : true, machineD : true};
+	isClickable = {A : true, B : true, C : true, D : true};
 }
 // Math Helpers
 function uniformRandom(min, max) {return min + Math.random() * (max - min);}
