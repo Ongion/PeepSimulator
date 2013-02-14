@@ -18,6 +18,7 @@ var path = function(frame, stage, image) {
 }
 var isClickable = {};
 function planA() {
+	currentData = dataA;
 	var stageShift = new Kinetic.Animation(function(frame){
 		if (stage.getY() + stageHeight / 50 > 0) {
 			stage.setY(0);
@@ -36,12 +37,16 @@ function planA() {
 	isClickable.machineB = false;
 	isClickable.machineC = false;
 	isClickable.machineD = false;
+	updateCharts();
 }
 function planB() {
 	planA();
+	currentData = dataB;
 	currentPlan = 'planB';
+	updateCharts();
 }
 function planC() {
+	currentData = dataC;
 	var stageShift = new Kinetic.Animation(function(frame){
 		if (stage.getY() - stageHeight / 50 < - stageHeight) {
 			stage.setY(- stageHeight);
@@ -60,6 +65,7 @@ function planC() {
 	isClickable.machineB = true;
 	isClickable.machineC = true;
 	isClickable.machineD = true;
+	updateCharts();
 }
 function updatePlan() {
 	if (currentPlan == 'planA' && buffer.length == 0) shiftMachinesRight(); 

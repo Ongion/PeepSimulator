@@ -62,7 +62,10 @@ var sqtotal = 0;
 // Google Charts Vars
 var chart;
 var spreadsheet;
-var data;
+var currentData;
+var dataA;
+var dataB;
+var dataC;
 var chartDataAdapter;
 var spreadsheetDataAdapter;
 var spreadsheetOptions = {
@@ -83,22 +86,32 @@ var chartOptions = {
 // Start Everything
 function initializeData() {
 	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL');
-	data = new google.visualization.DataTable();
-	for (var i = 0; i < cols.length; i++) data.addColumn('number', cols[i]);
-
+	dataA = new google.visualization.DataTable();
+	dataB = new google.visualization.DataTable();
+	dataC = new google.visualization.DataTable();
+	for (var i = 0; i < cols.length; i++) {
+		dataA.addColumn('number', cols[i]);
+		dataB.addColumn('number', cols[i]);
+		dataC.addColumn('number', cols[i]);
+	}
+	
+	currentData = dataA;
 	chart = new google.visualization.LineChart(document.getElementById('chart'));
-	chartData = new google.visualization.DataView(data);
-	chartData.setColumns([0, 1, 2, 3, 4]);
-	drawChart();
 	spreadsheet = new google.visualization.Table(document.getElementById('spreadsheet'));
-	spreadsheetData = new google.visualization.DataView(data);
-	spreadsheetData.setColumns([0, 1]);
-	drawSpreadsheet();
+	updateCharts();
 	
 	google.visualization.events.addListener(chart, 'select', function() {spreadsheet.setSelection([{row: chart.getSelection()[0].row}]);});
 	google.visualization.events.addListener(spreadsheet, 'select', function() {chart.setSelection(spreadsheet.getSelection());});
 	selectMachine();
 	planA();
+}
+function updateCharts() {
+	chartData = new google.visualization.DataView(currentData);
+	chartData.setColumns([0, 1, 2, 3, 4]);
+	drawChart();
+	spreadsheetData = new google.visualization.DataView(currentData);
+	spreadsheetData.setColumns([0, 1]);
+	drawSpreadsheet();
 }
 // Shortcuts
 function drawChart() {chart.draw(chartData, chartOptions);}
@@ -107,26 +120,26 @@ function drawSpreadsheet() {spreadsheet.draw(spreadsheetData, spreadsheetOptions
 function addRow(num, machine) {
 	total += num;
 	sqtotal += Math.pow(num, 2);
-	var count = data.getNumberOfRows() + 1;
+	var count = currentData.getNumberOfRows() + 1;
 	if (count <= 25) {
-		data.mean = total / count;
-		data.controlLimit = 3 * Math.sqrt((sqtotal - total * data.mean) / count);
+		currentData.mean = total / count;
+		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
 	}
-	data.addRow([count, num, data.mean, data.mean + data.controlLimit, data.mean - data.controlLimit]);
-	setMean(count, data.mean, data.controlLimit);
+	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
+	setMean(count, currentData.mean, currentData.controlLimit);
 	buffer.length = 0;
 	drawSpreadsheet();
 	if (count >= 25) drawChart();
 }
 // Sets the mean, UCL, and LCL for our chart
 function setMean(count, mean, controlLimit) {
-	data.setValue(0, 2, mean);
-	data.setValue(0, 3, mean + controlLimit);
-	data.setValue(0, 4, mean - controlLimit);
+	currentData.setValue(0, 2, mean);
+	currentData.setValue(0, 3, mean + controlLimit);
+	currentData.setValue(0, 4, mean - controlLimit);
 	if (count > 2) {
-		data.setValue(count - 2, 2, null);
-		data.setValue(count - 2, 3, null);
-		data.setValue(count - 2, 4, null);
+		currentData.setValue(count - 2, 2, null);
+		currentData.setValue(count - 2, 3, null);
+		currentData.setValue(count - 2, 4, null);
 	}
 }
 // Some testing helpers
@@ -140,7 +153,7 @@ function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < 4;
 // Button Clicks
 function exportData() {alert("This feature has not yet been implemented.");}
 function clearData() {
-	data.removeRows(0, data.getNumberOfRows());
+	currentData.removeRows(0, currentData.getNumberOfRows());
 	total = 0;
 	sqtotal = 0;
 	buffer.length = 0;
@@ -149,7 +162,7 @@ function clearData() {
 }
 function changePlan(plan) {
 	window[plan]();
-	clearData();
+	// clearData();
 }
 // Math Helpers
 function uniformRandom(min, max) {return min + Math.random() * (max - min);}
