@@ -166,7 +166,8 @@ function addPeep(machine) {
 function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < 4; j++) addPeep(machines[i % 4]);}
 // Button Clicks
 function exportData() {
-            var tempData = data;
+//			alert(navigator.appName);
+            var tempData = currentData;
             var csvData = [];
             var tmpArr = [];
             var tmpStr = '';
@@ -178,7 +179,7 @@ function exportData() {
             for (var i = 0; i < tempData.getNumberOfRows(); i++) {
                 tmpArr = [];
                 for (var j = 0; j < tempData.getNumberOfColumns(); j++) {
-                    switch(data.getColumnType(j)) {
+                    switch(currentData.getColumnType(j)) {
                         case 'string':
                             tmpStr = tempData.getValue(i, j).replace(/"/g, '""');
                             tmpArr.push('"' + tmpStr + '"');
