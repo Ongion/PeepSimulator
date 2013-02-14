@@ -47,6 +47,10 @@ input[type=button]:first-child {margin-left:0px;}
 input[type=button]:last-child {margin-right:0px;}
 input[type=button]:hover {background-color:gray;}
 input[type=button]:active {background-color:dimgray;}
+#planA, #planB, #planC {
+	margin-bottom:8px;
+	cursor:pointer;
+}
 /* Removes spacing between spreadsheet and page buttons */
 .google-visualization-table-table {padding-bottom:0px;}
 body .google-visualization-table-div-page {padding-top:0px;}

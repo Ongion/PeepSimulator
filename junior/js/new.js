@@ -157,21 +157,26 @@ function clearData() {
 }
 // Plan Changing!
 function changePlan(plan) {
-	currentData = datasets[plan];
 	total = totals[plan];
 	sqtotal = sqtotals[plan];
+	currentData = datasets[plan];
+	buffer.length = 0;
 	currentPlan = plan;
 	var peeps = layer.get('.peep');
 	for (var i = 0; i < peeps.length; i++) peeps[i].remove();
 	window['plan' + plan]();
+	$('#planA').css('background-color', '#ff4444');
+	$('#planB').css('background-color', '#ff4444');
+	$('#planC').css('background-color', '#ff4444');
+	$('#plan' + plan).css('background-color', 'gray');
 	updateCharts();
 }
 function planA() {
 	var stageShift = new Kinetic.Animation(function(frame){
-		if (stage.getY() + stageHeight / 50 > 0) {
+		if (stage.getY() + stageHeight / 20 > 0) {
 			stage.setY(0);
 			stageShift.stop();
-		} else stage.setY(stage.getY() + stageHeight / 50);
+		} else stage.setY(stage.getY() + stageHeight / 20);
 	}, layer);
 	stageShift.start();
 	stage.draw();
@@ -181,10 +186,10 @@ function planA() {
 var planB = planA;
 function planC() {
 	var stageShift = new Kinetic.Animation(function(frame){
-		if (stage.getY() - stageHeight / 50 < - stageHeight) {
+		if (stage.getY() - stageHeight / 20 < - stageHeight) {
 			stage.setY(- stageHeight);
 			stageShift.stop();
-		} else stage.setY(stage.getY() - stageHeight / 50);
+		} else stage.setY(stage.getY() - stageHeight / 20);
 	}, layer);
 	stageShift.start();
 	stage.draw();

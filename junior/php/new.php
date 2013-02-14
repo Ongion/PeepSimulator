@@ -21,9 +21,9 @@
 			<div class="wrapper">
 				<div class="wrapperLabel">Machine Settings</div>
 				<div id="settings">
-					<input type="radio" name="plan" value="planA" onchange="changePlan('A')" checked="checked">Plan A
-					<input type="radio" name="plan" value="planB" onchange="changePlan('B')">Plan B
-					<input type="radio" name="plan" value="planC" onchange="changePlan('C')">Plan C<br>
+					<input type="button" id="planA" name="plan" value="Plan A" onclick="changePlan('A')"/>
+					<input type="button" id="planB" name="plan" value="Plan B" onclick="changePlan('B')"/>
+					<input type="button" id="planC" name="plan" value="Plan C" onclick="changePlan('C')"/><br/>
 					<select id="selectedMachine" onchange="selectMachine()">
 						<option value="A">Machine A</option>
 						<option value="B">Machine B</option>
