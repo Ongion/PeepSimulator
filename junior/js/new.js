@@ -153,7 +153,6 @@ function addPeep(machine) {
 }
 function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < 4; j++) addPeep(machines[i % 4]);}
 // Button Clicks
-function exportData() {alert("This feature has not yet been implemented.");}
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());
 	total = 0;
@@ -162,6 +161,7 @@ function clearData() {
 	drawChart();
 	drawSpreadsheet();
 }
+// Plan Changing!
 function changePlan(plan) {
 	currentData = datasets[plan];
 	total = totals[plan];
@@ -184,9 +184,7 @@ function planA() {
 	
 	isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
 }
-function planB() {
-	planA();
-}
+var planB = planA;
 function planC() {
 	var stageShift = new Kinetic.Animation(function(frame){
 		if (stage.getY() - stageHeight / 50 < - stageHeight) {

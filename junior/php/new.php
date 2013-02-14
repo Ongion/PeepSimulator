@@ -72,7 +72,6 @@
 			</div>
 			<div class="wrapper">
 				<input type="button" value="Export Data" onclick="exportData()"/>
-				<input type="button" value="Add Lots of Data" onclick="addPeeps(8)"/>
 				<input type="button" value="Clear Data" onclick="clearData()"/>
 			</div>
 		</div>
