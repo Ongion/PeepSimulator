@@ -128,6 +128,8 @@ function drawChart() {
 	else chart.draw(emptyData, chartOptions);
 }
 function drawSpreadsheet() {spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
+
+
 // Data Manipulators
 function addRow(num, machine) {
 	total += num;
@@ -163,7 +165,48 @@ function addPeep(machine) {
 }
 function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < 4; j++) addPeep(machines[i % 4]);}
 // Button Clicks
-function exportData() {alert("This feature has not yet been implemented.");}
+function exportData() {
+            var tempData = data;
+            var csvData = [];
+            var tmpArr = [];
+            var tmpStr = '';
+            for (var i = 0; i < tempData.getNumberOfColumns(); i++) {
+                tmpStr = tempData.getColumnLabel(i).replace(/"/g, '""');
+                tmpArr.push('"' + tmpStr + '"');
+            }
+            csvData.push(tmpArr);
+            for (var i = 0; i < tempData.getNumberOfRows(); i++) {
+                tmpArr = [];
+                for (var j = 0; j < tempData.getNumberOfColumns(); j++) {
+                    switch(data.getColumnType(j)) {
+                        case 'string':
+                            tmpStr = tempData.getValue(i, j).replace(/"/g, '""');
+                            tmpArr.push('"' + tmpStr + '"');
+                            break;
+                        case 'number':
+                            tmpArr.push(tempData.getValue(i, j));
+                            break;
+                        case 'boolean':
+                            tmpArr.push((tempData.getValue(i, j)) ? 'True' : 'False');
+                            break;
+                        case 'date':
+                            break;
+                        case 'datetime':
+                            break;
+                        case 'timeofday':
+                            break;
+                        default:
+                    }
+                }
+                csvData.push(tmpArr.join(','));
+            }
+			var output = csvData.join('\n');
+            var uri = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(output);
+            alert('You may need to rename the downloaded file with a ".csv" extension to open it.\nExporting Data is not available in Internet Explorer.');
+            window.open(uri);
+        
+}
+
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());
 	total = 0;
