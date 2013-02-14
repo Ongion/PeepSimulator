@@ -2,74 +2,28 @@ google.load("visualization", "1", {packages:["corechart"]});
 google.load("visualization", "1", {packages:["table"]});
 google.setOnLoadCallback(initializeData);
 
-// Distributions
-function normalDistribution(params) {return params.Mu + Math.sqrt(-2 * Math.log(uniformRandom(0, 1))) * Math.cos(2 * Math.PI * uniformRandom(0, 1)) * params.Sigma;}
-function uniformDistribution(params) {return uniformRandom(params.Minimum, params.Maximum)}
-function exponentialDistribution(params) {
-	var lambda = 1.0 / params.Mean;
-	var u = uniformRandom(0, 1);
-	return -Math.log(1 - u) / lambda;
-}
-function machine(distribution) {
-	this.params = {};
-	this.distribution = distribution;
-	// function.name is not a standard property
-	var params = window[distribution.toString().match(/^function ([^(]+)/)[1] + 'Default'];
-	for (param in params) this.params[param] = params[param];
-	this.getRand = function() {return distribution(this.params);};
-}
 // Default Machine Values
 var normalDistributionDefault = {Mu: 1000, Sigma: 100};
 var exponentialDistributionDefault = {Mean: 1000};
 var uniformDistributionDefault = {Minimum: 900, Maximum:1100};
 // Default Machines
 var machines = {A : new machine(normalDistribution), B : new machine(normalDistribution), C : new machine(exponentialDistribution), D : new machine(exponentialDistribution)};
-// Called when we change which machine is selected in Machine Settings
-function selectMachine() {
-	$('#parameters tr').hide();
-	var selectedMachine = machines[$('#selectedMachine').val()];
-	for (param in selectedMachine.params) {
-		$('#'+param).show();
-		$('#'+param+'Val').val(selectedMachine.params[param]);
-	}
-	$('#selectedDistribution').val(selectedMachine.distribution.name);
-}
-// Called when we change which distribution is selected in Machine Settings
-function selectDistribution() {
-	$('#parameters tr').hide();
-	var selectedDist = window[$('#selectedDistribution').val()+"Default"];
-	for (param in selectedDist) {
-		$('#'+param).show();
-		$('#'+param+'Val').val(selectedDist[param]);
-	}
-}
-// Called when we hit Apply Changes in Machine Settings
-function saveMachine() {
-	var selectedDist = window[$('#selectedDistribution').val()];
-	window[$('#selectedMachine').val()] = new machine(selectedDist);
-	var selectedMachine = window[$('#selectedMachine').val()];
-	for (param in selectedMachine.params) selectedMachine.params[param] = parseInt($('#'+param+'Val').val(), 10);
-	alert("Changes Saved!");
-}
 // Miscellaneous Data Vars
 var buffer = new Array();
 var totals = {A : 0, B : 0, C : 0};
-var total = totals['A'];
 var sqtotals = {A : 0, B : 0, C : 0};
+var total = totals['A'];
 var sqtotal = sqtotals['A'];
+var machineList = ['A', 'B', 'C', 'D'];
 // Google Charts Vars
 var chart;
 var spreadsheet;
 var currentData;
 var datasets;
 var emptyData;
-var chartDataAdapter;
-var spreadsheetDataAdapter;
 var spreadsheetOptions = {
-	page: 'enable',
 	width: '100%',
 	height: 288,
-	pageSize: 10,
 	sortColumn: 0,
 	sortAscending: false
 };
@@ -107,6 +61,49 @@ function updateCharts() {
 	spreadsheetData = new google.visualization.DataView(currentData);
 	spreadsheetData.setColumns([0, 1]);
 	drawSpreadsheet();
+}
+// Distributions
+function normalDistribution(params) {return params.Mu + Math.sqrt(-2 * Math.log(uniformRandom(0, 1))) * Math.cos(2 * Math.PI * uniformRandom(0, 1)) * params.Sigma;}
+function uniformDistribution(params) {return uniformRandom(params.Minimum, params.Maximum)}
+function exponentialDistribution(params) {
+	var lambda = 1.0 / params.Mean;
+	var u = uniformRandom(0, 1);
+	return -Math.log(1 - u) / lambda;
+}
+function machine(distribution) {
+	this.params = {};
+	this.distribution = distribution;
+	// function.name is not a standard property
+	var params = window[distribution.toString().match(/^function ([^(]+)/)[1] + 'Default'];
+	for (param in params) this.params[param] = params[param];
+	this.getRand = function() {return distribution(this.params);};
+}
+// Called when we change which machine is selected in Machine Settings
+function selectMachine() {
+	$('#parameters tr').hide();
+	var selectedMachine = machines[$('#selectedMachine').val()];
+	for (param in selectedMachine.params) {
+		$('#'+param).show();
+		$('#'+param+'Val').val(selectedMachine.params[param]);
+	}
+	$('#selectedDistribution').val(selectedMachine.distribution.name);
+}
+// Called when we change which distribution is selected in Machine Settings
+function selectDistribution() {
+	$('#parameters tr').hide();
+	var selectedDist = window[$('#selectedDistribution').val()+"Default"];
+	for (param in selectedDist) {
+		$('#'+param).show();
+		$('#'+param+'Val').val(selectedDist[param]);
+	}
+}
+// Called when we hit Apply Changes in Machine Settings
+function saveMachine() {
+	var selectedDist = window[$('#selectedDistribution').val()];
+	window[$('#selectedMachine').val()] = new machine(selectedDist);
+	var selectedMachine = window[$('#selectedMachine').val()];
+	for (param in selectedMachine.params) selectedMachine.params[param] = parseInt($('#'+param+'Val').val(), 10);
+	alert("Changes Saved!");
 }
 // Shortcuts
 function drawChart() {
@@ -147,8 +144,7 @@ function addPeep(machine) {
 	if (buffer.length >= 4) addRow(mean(buffer), machine);
 	return rand;
 }
-var machineList = ['A', 'B', 'C', 'D'];
-function addPeeps(count) {for (var i = 0; i < count; i++) for (var i = 0; i < machineList.length; i++) addPeep(machineList[i]);}
+function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < machineList.length; j++) addPeep(machineList[j]);}
 // Button Clicks
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());

@@ -20,7 +20,10 @@ body, input, select, body .google-visualization-table-tr-head, body .google-visu
 .wrapper, .wrapperLabel, input[type=button], #settings, .google-visualization-table-table, body .google-visualization-table-div-page, body .google-visualization-table-tr-head, body .google-visualization-table-tr-head td {padding:8px;}
 /* Sets section border */
 .wrapper div {border:1px solid #ff4444;}
-.wrapper div div {border:none;}
+.wrapper div div {
+	border:none;
+	background-color:white;
+}
 /* Sets section label sizes */
 .wrapperLabel {
 	width:100%;
