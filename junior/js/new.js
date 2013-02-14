@@ -26,8 +26,9 @@ var datasets;
 var datasetsR;
 var emptyData;
 var emptyRData;
-var chartDataAdapter;
-var spreadsheetDataAdapter;
+var chartData;
+var rchartData;
+var spreadsheetData;
 
 var spreadsheetOptions = {
 	width: '100%',
@@ -70,20 +71,20 @@ function initializeData() {
 	updateCharts();
 	
 	google.visualization.events.addListener(chart, 'select', function() {spreadsheet.setSelection([{row: chart.getSelection()[0].row}]);});
-	google.visualization.events.addListener(rchart, 'select', function() {spreadsheet.setSelection([{row: rcharts.getSelection()[0].row}]);});
+	google.visualization.events.addListener(rchart, 'select', function() {spreadsheet.setSelection([{row: rchart.getSelection()[0].row}]);});
 	google.visualization.events.addListener(spreadsheet, 'select', function() {chart.setSelection(spreadsheet.getSelection());});
 	selectMachine();
 }
 // Called when we need to load a different set of data into our charts
 function updateCharts() {
-	var chartData = new google.visualization.DataView(currentData);
+	chartData = new google.visualization.DataView(currentData);
 	chartData.setColumns([0, 1, 2, 3, 4]);
 
-	var rchartData = new google.visualizatoin.DataView(currentRData);
+	rchartData = new google.visualization.DataView(currentRData);
 	rchartData.setColumns([0, 1, 2, 3, 4]);
-	drawRChart();
+	drawChart();
 
-	var spreadsheetData = new google.visualization.DataView(currentData);
+	spreadsheetData = new google.visualization.DataView(currentData);
 	spreadsheetData.setColumns([0, 1]);
 	drawSpreadsheet();
 }
@@ -133,11 +134,10 @@ function saveMachine() {
 }
 // Shortcuts
 function drawChart() {
-	if (currentData.getNumberOfRows() >= 25 && chart){
+	if (currentData.getNumberOfRows() >= 25 && chart && rchart) {
 		chart.draw(chartData, chartOptions);
 		rchart.draw(rchartData, chartOptions);
-	}
-	else if (chart && rchart) {
+	} else if (chart && rchart) {
 		chart.draw(emptyData, chartOptions);
 		rchart.draw(emptyRData, chartOptions);
 	}
@@ -146,7 +146,7 @@ function drawChart() {
 function drawSpreadsheet() {if (spreadsheet) spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
 // Data Manipulators
 function addRow(num, machine) {
-	total += num
+	total += num;
 	sqtotal += Math.pow(num, 2);
 	var count = currentData.getNumberOfRows() + 1;
 	if (count <= 25) {
@@ -154,7 +154,7 @@ function addRow(num, machine) {
 		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
 	}
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
-	currentRData.addRow([count, num, currentRData.range, currentRData.
+	//currentRData.addRow([count, num, currentRData.range, currentRData.
 	setMean(count, currentData.mean, currentData.controlLimit);
 	buffer.length = 0;
 	drawSpreadsheet();
@@ -193,6 +193,7 @@ function changePlan(plan) {
 	total = totals[plan];
 	sqtotal = sqtotals[plan];
 	currentData = datasets[plan];
+	currentRData = datasetsR[plan];
 	buffer.length = 0;
 	currentPlan = plan;
 	var peeps = layer.get('.peep');
