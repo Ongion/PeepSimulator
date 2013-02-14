@@ -1,13 +1,13 @@
-var scale = .15;
-var stageHeight = 457;
-var stageWidth = 457;
+var scale = .3;
+var stageHeight = 800;
+var stageWidth = 928;
 var peepWidth = 202;
 var peepHeight = 304;
 var path = function(frame, stage, image) {
-	if (image.getX() < 397.5 - scale * image.getWidth() / 2 && image.getY() < 362.5 - scale * image.getHeight() / 2) {
+	if (image.getX() < 695 - scale * image.getWidth() / 2 && image.getY() < 634 - scale * image.getHeight() / 2) {
 		if (currentPlan == 'C') image.move(0, stage.getHeight() / 100);
 		else image.move(0, stage.getHeight() / 450);
-	} else if (image.getX() < 397.5 - scale * image.getWidth() / 2) {
+	} else if (image.getX() < 695 - scale * image.getWidth() / 2) {
 		if (currentPlan == 'C') image.move(stage.getHeight() / 100, 0);
 		else image.move(stage.getHeight() / 450, 0);
 	} else {
@@ -39,8 +39,8 @@ function shiftMachinesRight() {
 
 var stage = new Kinetic.Stage({
 	container: 'container',
-	width: stageWidth,
-	height: stageHeight
+	height: stageHeight,
+	width: stageWidth
 });
 var layer = new Kinetic.Layer();
 stage.add(layer);
@@ -62,8 +62,8 @@ function Peep(machine) {
 	var imageObj = new Image();
 	imageObj.onload = function() {
 		var image = new Kinetic.Image({
-			x: 5 + (2 * machine + 1) * 42.5 - scale * peepWidth / 2 + 25 * (Math.random() - .5),
-			y: - peepHeight * scale + 180 * (Math.random() - .5),
+			x: 8 + (2 * machine + 1) * 74 - scale * peepWidth / 2 + 40 * (Math.random() - .5),
+			y: - peepHeight * scale + 360 * (Math.random() - .5),
 			scale: {x: scale, y: scale},
 			image: imageObj,
 			name: 'peep'
