@@ -67,6 +67,10 @@
 				<div id="chart"></div>
 			</div>
 			<div class="wrapper">
+				<div class="wrapperLabel">R Chart</div>
+				<div id="rchart"></div>
+			</div>
+			<div class="wrapper">
 				<div class="wrapperLabel">Peep Data</div>
 				<div id="spreadsheet"></div>
 			</div>
