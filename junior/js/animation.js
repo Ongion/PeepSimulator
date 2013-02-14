@@ -37,16 +37,16 @@ function planA() {
 	isClickable.machineB = false;
 	isClickable.machineC = false;
 	isClickable.machineD = false;
-	total = totalA;
-	sqtotal = sqtotalA;
+	total = totals['A'];
+	sqtotal = sqtotals['A'];
 	updateCharts();
 }
 function planB() {
 	planA();
 	currentData = dataB;
 	currentPlan = 'planB';
-	total = totalB;
-	sqtotal = sqtotalB;
+	total = totals['B'];
+	sqtotal = sqtotals['B'];
 	updateCharts();
 }
 function planC() {
@@ -69,8 +69,8 @@ function planC() {
 	isClickable.machineB = true;
 	isClickable.machineC = true;
 	isClickable.machineD = true;
-	total = totalC;
-	sqtotal = sqtotalC;
+	total = totals['C'];
+	sqtotal = sqtotals['C'];
 	updateCharts();
 }
 function updatePlan() {

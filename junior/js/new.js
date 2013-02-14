@@ -57,14 +57,10 @@ function saveMachine() {
 }
 // Miscellaneous Data Vars
 var buffer = new Array();
-var totalA = 0;
-var totalB = 0;
-var totalC = 0;
-var total = totalA;
-var sqtotalA = 0;
-var sqtotalB = 0;
-var sqtotalC = 0;
-var sqtotal = totalA;
+var totals = {A : 0, B : 0, C : 0};
+var total = totals['A'];
+var sqtotals = {A : 0, B : 0, C : 0};
+var sqtotal = sqtotals['A'];
 // Google Charts Vars
 var chart;
 var spreadsheet;
@@ -128,8 +124,6 @@ function drawChart() {
 	else chart.draw(emptyData, chartOptions);
 }
 function drawSpreadsheet() {spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
-
-
 // Data Manipulators
 function addRow(num, machine) {
 	total += num;
@@ -165,49 +159,7 @@ function addPeep(machine) {
 }
 function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < 4; j++) addPeep(machines[i % 4]);}
 // Button Clicks
-function exportData() {
-//			alert(navigator.appName);
-            var tempData = currentData;
-            var csvData = [];
-            var tmpArr = [];
-            var tmpStr = '';
-            for (var i = 0; i < tempData.getNumberOfColumns(); i++) {
-                tmpStr = tempData.getColumnLabel(i).replace(/"/g, '""');
-                tmpArr.push('"' + tmpStr + '"');
-            }
-            csvData.push(tmpArr);
-            for (var i = 0; i < tempData.getNumberOfRows(); i++) {
-                tmpArr = [];
-                for (var j = 0; j < tempData.getNumberOfColumns(); j++) {
-                    switch(currentData.getColumnType(j)) {
-                        case 'string':
-                            tmpStr = tempData.getValue(i, j).replace(/"/g, '""');
-                            tmpArr.push('"' + tmpStr + '"');
-                            break;
-                        case 'number':
-                            tmpArr.push(tempData.getValue(i, j));
-                            break;
-                        case 'boolean':
-                            tmpArr.push((tempData.getValue(i, j)) ? 'True' : 'False');
-                            break;
-                        case 'date':
-                            break;
-                        case 'datetime':
-                            break;
-                        case 'timeofday':
-                            break;
-                        default:
-                    }
-                }
-                csvData.push(tmpArr.join(','));
-            }
-			var output = csvData.join('\n');
-            var uri = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(output);
-            alert('You may need to rename the downloaded file with a ".csv" extension to open it.\nExporting Data is not available in Internet Explorer.');
-            window.open(uri);
-        
-}
-
+function exportData() {alert("This feature has not yet been implemented.");}
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());
 	total = 0;
