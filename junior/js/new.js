@@ -13,8 +13,10 @@ var DEFAULT_MACHINE = 'A';
 var buffer = new Array();
 var totals = {A : 0, B : 0, C : 0};
 var sqtotals = {A : 0, B : 0, C : 0};
+var ranges = {A : 0, B : 0, C : 0};
 var total = totals[DEFAULT_MACHINE];
 var sqtotal = sqtotals[DEFAULT_MACHINE];
+var rangeTotal = ranges[DEFAULT_MACHINE];
 var machineList = ['A', 'B', 'C', 'D'];
 // Google Charts Vars
 var chart;
@@ -29,6 +31,10 @@ var emptyRData;
 var chartData;
 var rchartData;
 var spreadsheetData;
+
+// Constants
+var A2 = 0.729; // Value for calculating UCL and LCL for control charts when n = 4
+var D4 = 2.282;  // Value for calculation UCL for R charts when n = 4
 
 var spreadsheetOptions = {
 	width: '100%',
@@ -146,17 +152,21 @@ function drawChart() {
 function drawSpreadsheet() {if (spreadsheet) spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
 
 // Data Manipulators
-function addRow(num, machine) {
+function addRow(num, range, machine) {
 	total += num;
+	rangeTotal += range;
 	sqtotal += Math.pow(num, 2);
 	var count = currentData.getNumberOfRows() + 1;
+	var rangeMean = rangeTotal / count;
 	if (count <= 25) {
 		currentData.mean = total / count;
-
-		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
+		currentRData.rangeMean = rangeMean;
+		//		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
+		currentData.controlLimit = A2 * rangeMean;
+		currentRData.upperControlLimit = D4 * rangeMean;
 	}
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
-	//currentRData.addRow([count, num, currentRData.range, currentRData.
+	currentRData.addRow([count, num, currentRData.range, currentData.upperControlLimit, 0]);
 	setMean(count, currentData.mean, currentData.controlLimit);
 	buffer.length = 0;
 	drawSpreadsheet();
@@ -173,17 +183,30 @@ function setMean(count, mean, controlLimit) {
 		currentData.setValue(count - 2, 4, null);
 	}
 }
+
+function setRange(count, rbar, UCL) {
+	currentRData.setValue(0, 2, rbar);
+	currentRData.setValue(0, 3, UCL);
+	currentData.setValue(0, 4, 0);
+	if (count > 2) {
+		currentRData.setValue(count - 2, 2, null);
+		currentRData.setValue(count - 2, 3, null);
+		currentRData.setValue(count - 2, 4, null);
+	}
+}
+
 // Some testing helpers
 function addPeep(machine) {
 	var rand = Math.round(machines[machine].getRand());
 	buffer[buffer.length] = rand;
-	if (buffer.length >= 4) addRow(mean(buffer), machine);
+	if (buffer.length >= 4) addRow(mean(buffer), range(buffer), machine);
 	return rand;
 }
 function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < machineList.length; j++) addPeep(machineList[j]);}
 // Button Clicks
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());
+	currentRData.removeRows(0, currentRData.getNumberOfRows());
 	total = 0;
 	sqtotal = 0;
 	buffer.length = 0;
