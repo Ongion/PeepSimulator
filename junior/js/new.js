@@ -64,7 +64,7 @@ function initializeData() {
 		datasets['A'].addColumn(types[i], cols[i]);
 		datasets['B'].addColumn(types[i], cols[i]);
 		datasets['C'].addColumn(types[i], cols[i]);
-		emptyData.addColumn('number', cols[i]);
+		if (i != cols.length - 1) emptyData.addColumn('number', cols[i]);
 	}
 	for (i = 0; i < rcols.length; i++) {
 		datasetsR['A'].addColumn(types[i], rcols[i]);
