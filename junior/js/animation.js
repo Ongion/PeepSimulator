@@ -101,9 +101,7 @@ backgroundObjA.onload = function() {
 	layer.add(backgroundImageA);
 }
 backgroundObjA.src = "../images/backgroundA.png";
-
 var backgroundImage = backgroundImageA;
-
 
 function Peep(machine) {
 	var imageObj = new Image();

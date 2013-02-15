@@ -19,6 +19,7 @@ var sqtotal = sqtotals[DEFAULT_MACHINE];
 var rangeTotal = ranges[DEFAULT_MACHINE];
 var machineList = ['A', 'B', 'C', 'D'];
 var isClickable = {};
+var currentPlan;
 // Google Charts Vars
 var chart;
 var rchart;
@@ -52,22 +53,23 @@ var chartOptions = {
 };
 // Called when we start the application
 function initializeData() {
-	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL');
+	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL', 'Machine');
+	var types = new Array('number', 'number', 'number', 'number', 'number', 'string');
 	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL');
 	datasets = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	datasetsR = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	emptyData = new google.visualization.DataTable();
 	emptyRData = new google.visualization.DataTable();
 	for (var i = 0; i < cols.length; i++) {
-		datasets['A'].addColumn('number', cols[i]);
-		datasets['B'].addColumn('number', cols[i]);
-		datasets['C'].addColumn('number', cols[i]);
+		datasets['A'].addColumn(types[i], cols[i]);
+		datasets['B'].addColumn(types[i], cols[i]);
+		datasets['C'].addColumn(types[i], cols[i]);
 		emptyData.addColumn('number', cols[i]);
 	}
 	for (i = 0; i < rcols.length; i++) {
-		datasetsR['A'].addColumn('number', rcols[i]);
-		datasetsR['B'].addColumn('number', rcols[i]);
-		datasetsR['C'].addColumn('number', rcols[i]);
+		datasetsR['A'].addColumn(types[i], rcols[i]);
+		datasetsR['B'].addColumn(types[i], rcols[i]);
+		datasetsR['C'].addColumn(types[i], rcols[i]);
 		emptyRData.addColumn('number', rcols[i]);
 	}
 	changePlan(DEFAULT_MACHINE);
@@ -92,7 +94,8 @@ function updateCharts() {
 	drawChart();
 
 	spreadsheetData = new google.visualization.DataView(currentData);
-	spreadsheetData.setColumns([0, 1]);
+	if (currentPlan == 'A') spreadsheetData.setColumns([0, 1, 5]);
+	else spreadsheetData.setColumns([0, 1]);
 	drawSpreadsheet();
 }
 // Distribution definitions
@@ -162,11 +165,10 @@ function addRow(num, range, machine) {
 	if (count <= 25) {
 		currentData.mean = total / count;
 		currentRData.rangeMean = rangeMean;
-		//		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
 		currentData.controlLimit = A2 * rangeMean;
 		currentRData.upperControlLimit = D4 * rangeMean;
 	}
-	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
+	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit, machine]);
 	currentRData.addRow([count, range, currentRData.rangeMean, currentRData.upperControlLimit]);
 	setMean(count, currentData.mean, currentData.controlLimit);
 	setRange(count, currentRData.rangeMean, currentRData.upperControlLimit);
