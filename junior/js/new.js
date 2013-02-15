@@ -272,4 +272,6 @@ function range(array) {
 		if (array[i] > max) max = array[i];
 		if (array[i] < min) min = array[i];
 	}
+
+	return max - min;
 }
