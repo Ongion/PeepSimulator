@@ -168,6 +168,7 @@ function addRow(num, range, machine) {
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
 	currentRData.addRow([count, num, currentRData.range, currentData.upperControlLimit, 0]);
 	setMean(count, currentData.mean, currentData.controlLimit);
+	setRange(count, currentRData.rangeMean, currentRData.upperControlLimit);
 	buffer.length = 0;
 	drawSpreadsheet();
 	if (count >= 25) drawChart();
@@ -187,7 +188,7 @@ function setMean(count, mean, controlLimit) {
 function setRange(count, rbar, UCL) {
 	currentRData.setValue(0, 2, rbar);
 	currentRData.setValue(0, 3, UCL);
-	currentData.setValue(0, 4, 0);
+	//	currentData.setValue(0, 4, 0);
 	if (count > 2) {
 		currentRData.setValue(count - 2, 2, null);
 		currentRData.setValue(count - 2, 3, null);
