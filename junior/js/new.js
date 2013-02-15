@@ -16,7 +16,7 @@ var sqtotals = {A : 0, B : 0, C : 0};
 var total = totals[DEFAULT_MACHINE];
 var sqtotal = sqtotals[DEFAULT_MACHINE];
 var machineList = ['A', 'B', 'C', 'D'];
-var  isClickable;
+var isClickable = {};
 // Google Charts Vars
 var chart;
 var rchart;
