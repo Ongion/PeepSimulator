@@ -58,10 +58,10 @@ function initializeData() {
 		emptyData.addColumn('number', cols[i]);
 	}
 	for (i = 0; i < rcols.length; i++) {
-		datasetsR['A'].addColumn('number', cols[i]);
-		datasetsR['B'].addColumn('number', cols[i]);
-		datasetsR['C'].addColumn('number', cols[i]);
-		emptyRData.addColumn('number', cols[i]);
+		datasetsR['A'].addColumn('number', rcols[i]);
+		datasetsR['B'].addColumn('number', rcols[i]);
+		datasetsR['C'].addColumn('number', rcols[i]);
+		emptyRData.addColumn('number', rcols[i]);
 	}
 	changePlan(DEFAULT_MACHINE);
 
@@ -144,6 +144,7 @@ function drawChart() {
 }
 
 function drawSpreadsheet() {if (spreadsheet) spreadsheet.draw(spreadsheetData, spreadsheetOptions);}
+
 // Data Manipulators
 function addRow(num, machine) {
 	total += num;
@@ -151,6 +152,7 @@ function addRow(num, machine) {
 	var count = currentData.getNumberOfRows() + 1;
 	if (count <= 25) {
 		currentData.mean = total / count;
+
 		currentData.controlLimit = 3 * Math.sqrt((sqtotal - total * currentData.mean) / count);
 	}
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
