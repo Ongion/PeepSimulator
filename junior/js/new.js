@@ -18,6 +18,7 @@ var total = totals[DEFAULT_MACHINE];
 var sqtotal = sqtotals[DEFAULT_MACHINE];
 var rangeTotal = ranges[DEFAULT_MACHINE];
 var machineList = ['A', 'B', 'C', 'D'];
+var isClickable = {};
 // Google Charts Vars
 var chart;
 var rchart;
@@ -230,6 +231,7 @@ function changePlan(plan) {
 	$('#planC').css('background-color', '#ff4444');
 	$('#plan' + plan).css('background-color', 'gray');
 	updateCharts();
+	backgroundImage = backgroundImageA;
 }
 function planA() {
 	var stageShift = new Kinetic.Animation(function(frame){

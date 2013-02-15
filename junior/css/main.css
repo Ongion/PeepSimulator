@@ -2,20 +2,15 @@
 
 /* Include border when calculating content width */
 div {box-sizing:border-box;}
-/* Sets page width */
-body {
-	width:950px;
-	margin:auto;
-}
 /* Sets page font */
 body, input, select, body .google-visualization-table-tr-head, body .google-visualization-table-tr-head td {
 	font-family:'Lato';
 	font-weight:normal;
 }
 /* Sets page columns */
-#leftCol, #rightCol {width:50%}
-#leftCol {float:left;}
-#rightCol {float:right;}
+#leftCol {width:911px;}
+#leftCol, #rightCol, #middleCol {float:left;}
+#middleCol, #rightCol {width:455px;}
 /* Sets section padding */
 .wrapper, .wrapperLabel, input[type=button], #settings, .google-visualization-table-table, body .google-visualization-table-div-page, body .google-visualization-table-tr-head, body .google-visualization-table-tr-head td {padding:8px;}
 /* Sets section border */
