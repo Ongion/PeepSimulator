@@ -137,8 +137,8 @@ function selectDistribution() {
 // Called when we hit Apply Changes in Machine Settings
 function saveMachine() {
 	var selectedDist = window[$('#selectedDistribution').val()];
-	window[$('#selectedMachine').val()] = new machine(selectedDist);
-	var selectedMachine = window[$('#selectedMachine').val()];
+	machines[$('#selectedMachine').val()] = new machine(selectedDist);
+	var selectedMachine = machines[$('#selectedMachine').val()];
 	for (param in selectedMachine.params) selectedMachine.params[param] = parseInt($('#'+param+'Val').val(), 10);
 	alert("Changes Saved!");
 }
