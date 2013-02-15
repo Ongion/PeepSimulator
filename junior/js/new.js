@@ -53,7 +53,7 @@ var chartOptions = {
 // Called when we start the application
 function initializeData() {
 	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL');
-	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL', 'LCL');
+	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL');
 	datasets = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	datasetsR = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	emptyData = new google.visualization.DataTable();
@@ -167,8 +167,9 @@ function addRow(num, range, machine) {
 		currentRData.upperControlLimit = D4 * rangeMean;
 	}
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
-	currentRData.addRow([count, num, currentRData.range, currentData.upperControlLimit, 0]);
+	currentRData.addRow([count, num, currentRData.range, currentData.upperControlLimit]);
 	setMean(count, currentData.mean, currentData.controlLimit);
+	setRange(count, currentRData.rangeMean, currentRData.upperControlLimit);
 	buffer.length = 0;
 	drawSpreadsheet();
 	if (count >= 25) drawChart();
@@ -188,7 +189,7 @@ function setMean(count, mean, controlLimit) {
 function setRange(count, rbar, UCL) {
 	currentRData.setValue(0, 2, rbar);
 	currentRData.setValue(0, 3, UCL);
-	currentData.setValue(0, 4, 0);
+	//	currentData.setValue(0, 4, 0);
 	if (count > 2) {
 		currentRData.setValue(count - 2, 2, null);
 		currentRData.setValue(count - 2, 3, null);
@@ -274,4 +275,6 @@ function range(array) {
 		if (array[i] > max) max = array[i];
 		if (array[i] < min) min = array[i];
 	}
+
+	return max - min;
 }
