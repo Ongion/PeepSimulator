@@ -53,7 +53,7 @@ var chartOptions = {
 // Called when we start the application
 function initializeData() {
 	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL');
-	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL', 'LCL');
+	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL');
 	datasets = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	datasetsR = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	emptyData = new google.visualization.DataTable();
@@ -88,7 +88,7 @@ function updateCharts() {
 	chartData.setColumns([0, 1, 2, 3, 4]);
 
 	rchartData = new google.visualization.DataView(currentRData);
-	rchartData.setColumns([0, 1, 2, 3, 4]);
+	rchartData.setColumns([0, 1, 2, 3]);
 	drawChart();
 
 	spreadsheetData = new google.visualization.DataView(currentData);
@@ -167,7 +167,7 @@ function addRow(num, range, machine) {
 		currentRData.upperControlLimit = D4 * rangeMean;
 	}
 	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit]);
-	currentRData.addRow([count, num, currentRData.range, currentData.upperControlLimit, 0]);
+	currentRData.addRow([count, range, currentRData.rangeMean, currentRData.upperControlLimit]);
 	setMean(count, currentData.mean, currentData.controlLimit);
 	setRange(count, currentRData.rangeMean, currentRData.upperControlLimit);
 	buffer.length = 0;
@@ -193,7 +193,7 @@ function setRange(count, rbar, UCL) {
 	if (count > 2) {
 		currentRData.setValue(count - 2, 2, null);
 		currentRData.setValue(count - 2, 3, null);
-		currentRData.setValue(count - 2, 4, null);
+		//		currentRData.setValue(count - 2, 4, null);
 	}
 }
 
@@ -219,6 +219,7 @@ function clearData() {
 function changePlan(plan) {
 	total = totals[plan];
 	sqtotal = sqtotals[plan];
+	rangeTotal = ranges[plan];
 	currentData = datasets[plan];
 	currentRData = datasetsR[plan];
 	buffer.length = 0;
