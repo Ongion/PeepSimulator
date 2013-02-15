@@ -207,6 +207,7 @@ function changePlan(plan) {
 	$('#planC').css('background-color', '#ff4444');
 	$('#plan' + plan).css('background-color', 'gray');
 	updateCharts();
+	backgroundImage = backgroundImageA;
 }
 function planA() {
 	var stageShift = new Kinetic.Animation(function(frame){

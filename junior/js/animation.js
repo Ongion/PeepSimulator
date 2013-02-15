@@ -3,7 +3,7 @@ var stageHeight = 800;
 var stageWidth = 928;
 var peepWidth = 202;
 var peepHeight = 304;
-peepImage = {};
+var delFlag = false;
 var path = function(frame, stage, image) {
 	if (image.getX() < 695 - scale * image.getWidth() / 2 && image.getY() < 634 - scale * image.getHeight() / 2) {
 		if (currentPlan == 'C') image.move(0, stage.getHeight() / 100);
@@ -25,16 +25,21 @@ function shiftMachinesRight() {
 	if (isClickable.A) {
 		isClickable.A = false;
 		isClickable.B = true;
+		backgroundImage = backgroundImageB;
 	} else if (isClickable.B) {
 		isClickable.B = false;
 		isClickable.C = true;
+		backgroundImage = backgroundImageC;
 	} else if (isClickable.C) {
 		isClickable.C = false;
 		isClickable.D = true;
+		backgroundImage = backgroundImageD;
 	} else if (isClickable.D) {
 		isClickable.D = false;
 		isClickable.A = true;
+		backgroundImage = backgroundImageA;
 	}
+	backgroundImage.moveToTop();
 }
 
 var stage = new Kinetic.Stage({
@@ -45,18 +50,60 @@ var stage = new Kinetic.Stage({
 var layer = new Kinetic.Layer();
 stage.add(layer);
 
-var backgroundObj = new Image();
-var backgroundImage;
-backgroundObj.onload = function() {
-	backgroundImage = new Kinetic.Image({
+var backgroundObjB = new Image();
+var backgroundImageB;
+backgroundObjB.onload = function() {
+	backgroundImageB = new Kinetic.Image({
 		x: 0,
 		y: 0,
-		image: backgroundObj
+		image: backgroundObjB
 	});
-	backgroundImage.createImageHitRegion(function() {layer.drawHit();});
-	layer.add(backgroundImage);
+	backgroundImageB.createImageHitRegion(function() {layer.drawHit();});
+	layer.add(backgroundImageB);
 }
-backgroundObj.src = "../images/background.png";
+backgroundObjB.src = "../images/backgroundB.png";
+
+var backgroundObjC = new Image();
+var backgroundImageC;
+backgroundObjC.onload = function() {
+	backgroundImageC = new Kinetic.Image({
+		x: 0,
+		y: 0,
+		image: backgroundObjC
+	});
+	backgroundImageC.createImageHitRegion(function() {layer.drawHit();});
+	layer.add(backgroundImageC);
+}
+backgroundObjC.src = "../images/backgroundC.png";
+
+var backgroundObjD = new Image();
+var backgroundImageD;
+backgroundObjD.onload = function() {
+	backgroundImageD = new Kinetic.Image({
+		x: 0,
+		y: 0,
+		image: backgroundObjD
+	});
+	backgroundImageD.createImageHitRegion(function() {layer.drawHit();});
+	layer.add(backgroundImageD);
+}
+backgroundObjD.src = "../images/backgroundD.png";
+
+var backgroundObjA = new Image();
+var backgroundImageA;
+backgroundObjA.onload = function() {
+	backgroundImageA = new Kinetic.Image({
+		x: 0,
+		y: 0,
+		image: backgroundObjA
+	});
+	backgroundImageA.createImageHitRegion(function() {layer.drawHit();});
+	layer.add(backgroundImageA);
+}
+backgroundObjA.src = "../images/backgroundA.png";
+
+var backgroundImage = backgroundImageA;
+
 
 function Peep(machine) {
 	var imageObj = new Image();
@@ -91,8 +138,6 @@ function Peep(machine) {
 	if (currentPlan == 'C') imageObj.src = "../images/peepE.png";
 	else imageObj.src = "../images/peep" + machineList[machine] + ".png";
 	
-	peepimage[machineList[machine]] = imageObj.getImage();
-	
 }
 var timeCount = 0;
 var anim = new Kinetic.Animation(function(frame){
@@ -101,13 +146,6 @@ var anim = new Kinetic.Animation(function(frame){
 	for (var i = 0; i < peeps.length; i++) {
 		var thePeep = peeps[i];
 		path(frame, stage, thePeep);
-		if (isClickable[machineList[thePeep.attrs.image.alt]]) {
-			//thePeep.setImage(peepimage[machineList[
-		} else {
-			if (thePeep.attrs.image.src != "../images/peepF.png") {
-				thePeep.attrs.image.src = "../images/peepF.png";
-			}
-		}
 		if (thePeep.getY() > 2 * stage.getHeight() || thePeep.getX() > stage.getWidth()) {
 				thePeep.remove();
 		}
