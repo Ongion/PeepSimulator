@@ -18,6 +18,22 @@
 					<script src="../js/animation.js" type="text/javascript"></script>
 				</div>
 			</div>
+		</div>
+		<div id="middleCol">
+			<div class="wrapper">
+				<div class="wrapperLabel">Control Chart</div>
+				<div id="chart"></div>
+			</div>
+			<div class="wrapper">
+				<div class="wrapperLabel">R Chart</div>
+				<div id="rchart"></div>
+			</div>
+		</div>
+		<div id="rightCol">
+			<div class="wrapper">
+				<div class="wrapperLabel">Peep Data</div>
+				<div id="spreadsheet"></div>
+			</div>
 			<div class="wrapper">
 				<div class="wrapperLabel">Machine Settings</div>
 				<div id="settings">
@@ -59,20 +75,6 @@
 					</tbody></table>
 					<input type="button" value="Apply Changes" onclick="saveMachine()">
 				</div>
-			</div>
-		</div>
-		<div id="rightCol">
-			<div class="wrapper">
-				<div class="wrapperLabel">Control Chart</div>
-				<div id="chart"></div>
-			</div>
-			<div class="wrapper">
-				<div class="wrapperLabel">R Chart</div>
-				<div id="rchart"></div>
-			</div>
-			<div class="wrapper">
-				<div class="wrapperLabel">Peep Data</div>
-				<div id="spreadsheet"></div>
 			</div>
 			<div class="wrapper">
 				<input type="button" value="Clear Data" onclick="clearData()"/>

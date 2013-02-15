@@ -18,6 +18,7 @@ var total = totals[DEFAULT_MACHINE];
 var sqtotal = sqtotals[DEFAULT_MACHINE];
 var rangeTotal = ranges[DEFAULT_MACHINE];
 var machineList = ['A', 'B', 'C', 'D'];
+var  isClickable;
 // Google Charts Vars
 var chart;
 var rchart;
