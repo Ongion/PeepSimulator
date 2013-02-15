@@ -16,7 +16,6 @@ var path = function(frame, stage, image) {
 	}
 	return false;
 }
-isClickable = {machineA : true, machineB : false, machineC : false, machineD : false};
 function updatePlan() {
 	if (currentPlan == 'A' && buffer.length == 0) shiftMachinesRight(); 
 	else if (currentPlan == 'B') shiftMachinesRight();
@@ -59,6 +58,7 @@ backgroundObj.onload = function() {
 backgroundObj.src = "../images/background.png";
 
 function Peep(machine) {
+	this.machine = machine;
 	var imageObj = new Image();
 	imageObj.onload = function() {
 		var image = new Kinetic.Image({
@@ -96,6 +96,11 @@ var anim = new Kinetic.Animation(function(frame){
 	for (var i = 0; i < peeps.length; i++) {
 		var thePeep = peeps[i];
 		path(frame, stage, thePeep);
+		if (isClickable(machineList[thePeep.machine])) {
+			thePeep.imageObj.src = "../images/peep" + machineList[machine] + ".png";
+		} else {
+			thePeep.imageObj.src = "../images/peepF.png";
+		}
 		if (thePeep.getY() > 2 * stage.getHeight() || thePeep.getX() > stage.getWidth()) {
 				thePeep.remove();
 		}
