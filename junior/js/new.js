@@ -201,7 +201,7 @@ function setRange(count, rbar, UCL) {
 
 // Some testing helpers
 function addPeep(machine) {
-	var rand = Math.round(machines[machine].getRand());
+	var rand = machines[machine].getRand();
 	buffer[buffer.length] = rand;
 	if (buffer.length >= 4) addRow(mean(buffer), range(buffer), machine);
 	return rand;
@@ -267,7 +267,7 @@ function uniformRandom(min, max) {return min + Math.random() * (max - min);}
 function mean(array) {
 	var total = 0;
 	$.each(array, function() {total += this;});
-	return Math.round(total / array.length);
+	return parseFloat((total / array.length).toFixed(2));
 }
 
 function range(array) {
