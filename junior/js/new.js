@@ -53,8 +53,8 @@ var chartOptions = {
 };
 // Called when we start the application
 function initializeData() {
-	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL', 'Machine');
-	var types = new Array('number', 'number', 'number', 'number', 'number', 'string');
+	var cols = new Array('Peep Number', 'Fluffiness', 'Mean', 'UCL', 'LCL', 'Machine', 'Peep 1', 'Peep 2', 'Peep 3', 'Peep 4');
+	var types = new Array('number', 'number', 'number', 'number', 'number', 'string', 'number', 'number', 'number', 'number');
 	var rcols = new Array('Peep Number', 'Fluffiness', 'Range', 'UCL');
 	datasets = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
 	datasetsR = {A : new google.visualization.DataTable(), B : new google.visualization.DataTable(), C : new google.visualization.DataTable()};
@@ -94,8 +94,8 @@ function updateCharts() {
 	drawChart();
 
 	spreadsheetData = new google.visualization.DataView(currentData);
-	if (currentPlan == 'A') spreadsheetData.setColumns([0, 1, 5]);
-	else spreadsheetData.setColumns([0, 1]);
+	if (currentPlan == 'A') spreadsheetData.setColumns([0, 1, 5, 6, 7, 8, 9]);
+	else spreadsheetData.setColumns([0, 1, 6, 7, 8, 9]);
 	drawSpreadsheet();
 }
 // Distribution definitions
@@ -168,7 +168,7 @@ function addRow(num, range, machine) {
 		currentData.controlLimit = A2 * rangeMean;
 		currentRData.upperControlLimit = D4 * rangeMean;
 	}
-	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit, machine]);
+	currentData.addRow([count, num, currentData.mean, currentData.mean + currentData.controlLimit, currentData.mean - currentData.controlLimit, machine, round(buffer[0]), round(buffer[1]), round(buffer[2]), round(buffer[3])]);
 	currentRData.addRow([count, range, currentRData.rangeMean, currentRData.upperControlLimit]);
 	setMean(count, currentData.mean, currentData.controlLimit);
 	setRange(count, currentRData.rangeMean, currentRData.upperControlLimit);
@@ -264,10 +264,14 @@ function planC() {
 // Math Helpers
 function uniformRandom(min, max) {return min + Math.random() * (max - min);}
 
+function round(input) {
+	return parseFloat(input.toFixed(2));
+}
+
 function mean(array) {
 	var total = 0;
 	$.each(array, function() {total += this;});
-	return parseFloat((total / array.length).toFixed(2));
+	return round(total / array.length);
 }
 
 function range(array) {
