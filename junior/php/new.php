@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
 		<title>Sambocom</title>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
-		<script src="//d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.3.1.min.js" type="text/javascript"></script>
+		<script src="../js/kinetic-v4.3.3.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="../js/new.js"></script>
 	</head>

@@ -206,12 +206,35 @@ function addPeep(machine) {
 	if (buffer.length >= 4) addRow(mean(buffer), range(buffer), machine);
 	return rand;
 }
-function addPeeps(count) {for (var i = 0; i < count; i++) for (var j = 0; j < machineList.length; j++) addPeep(machineList[j]);}
+function addPeeps(count) {
+	for (var i = 0; i < count; i++) {
+		if (currentPlan == 'C') {
+			var rand = uniformRandom(0,3);
+			addPeep(machineList[rand]);
+		} else {
+			if (isClickable.A) {
+				addPeep(machineList[0]);
+			} else if (isClickable.B) {
+				addPeep(machineList[1]);
+			} else if (isClickable.C) {
+				addPeep(machineList[2]);
+			} else {
+				addPeep(machineList[3]);
+			}
+			// for (var j = 0; j < machineList.length; j++){
+			// 	addPeep(machineList[j]);
+			// }
+		}
+		updatePlan()
+	}
+}
+
 // Button Clicks
 function clearData() {
 	currentData.removeRows(0, currentData.getNumberOfRows());
 	currentRData.removeRows(0, currentRData.getNumberOfRows());
 	total = 0;
+	rangeTotal = 0;
 	sqtotal = 0;
 	buffer.length = 0;
 	drawChart();

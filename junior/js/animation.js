@@ -108,7 +108,7 @@ function Peep(machine) {
 	imageObj.onload = function() {
 		var image = new Kinetic.Image({
 			x: 8 + (2 * machine + 1) * 74 - scale * peepWidth / 2 + 40 * (Math.random() - .5),
-			y: - peepHeight * scale + 360 * (Math.random() - .5),
+			y: - peepHeight * scale + 100 + 100 * (Math.random() - .5),
 			scale: {x: scale, y: scale},
 			image: imageObj,
 			name: 'peep'
@@ -148,7 +148,7 @@ var anim = new Kinetic.Animation(function(frame){
 				thePeep.remove();
 		}
 	}
-	if (timeCount >= 90) {
+	if (timeCount >= 60) {
 		for (var i = 0; i < 4; i++) {
 			var j = i;
 			if (currentPlan == 'C') j = Math.floor(4 * Math.random());
