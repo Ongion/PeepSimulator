@@ -209,8 +209,8 @@ function addPeep(machine) {
 function addPeeps(count) {
 	for (var i = 0; i < count; i++) {
 		if (currentPlan == 'C') {
-			var rand = uniformRandom(0,3);
-			addPeep(machineList[rand]);
+			var randomMachine = Math.floor(uniformRandom(0,4));
+			addPeep(machineList[randomMachine]);
 		} else {
 			if (isClickable.A) {
 				addPeep(machineList[0]);
@@ -221,9 +221,6 @@ function addPeeps(count) {
 			} else {
 				addPeep(machineList[3]);
 			}
-			// for (var j = 0; j < machineList.length; j++){
-			// 	addPeep(machineList[j]);
-			// }
 		}
 		updatePlan()
 	}

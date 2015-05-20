@@ -78,7 +78,7 @@
 			</div>
 			<div class="wrapper">
 				<input type="button" value="Clear Data" onclick="clearData()"/>
-				<input type="button" value="Add Lots of Data" onclick="addPeeps(8)"/>
+				<input type="button" value="Add Lots of Data" onclick="addPeeps(16)"/>
 			</div>
 		</div>
 	</body>
