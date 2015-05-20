@@ -7,7 +7,7 @@ var normalDistributionDefault = {Mu: 1000, Sigma: 100};
 var exponentialDistributionDefault = {Mean: 1000};
 var uniformDistributionDefault = {Minimum: 900, Maximum:1100};
 // Default Machines
-var machines = {A : new machine(normalDistribution), B : new machine(normalDistribution), C : new machine(exponentialDistribution), D : new machine(exponentialDistribution)};
+var machines = {A : new machine(normalDistribution), B : new machine(normalDistribution), C : new machine(normalDistribution), D : new machine(normalDistribution)};
 // Miscellaneous Data Vars
 var DEFAULT_MACHINE = 'A';
 var buffer = new Array();
